@@ -10,7 +10,7 @@ mysql_client < database/schema.sql
 # create tables
 for sql_file in $(ls -1 database/tables)
 do
-    echo "------------ Executing $(basename ${sql_file}) ------------"
+  echo "------------ Executing $(basename ${sql_file}) ------------"
   cat database/tables/${sql_file}
   mysql_client -D "100ch_production" < database/tables/${sql_file}
 done
