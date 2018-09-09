@@ -1,0 +1,7 @@
+h1 Board
+
+- @boards.each do |board|
+  .board-box
+    a href="/board/#{board["id"]}" = board["name"]
+
+a href="/board/new" new
