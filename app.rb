@@ -6,6 +6,8 @@ require 'models/init'
 register Sinatra::Reloader
 
 class App < Sinatra::Base
+  set :method_override, true
+
   get '/' do
     @boards = Board.all
     slim :index
@@ -19,6 +21,13 @@ class App < Sinatra::Base
   post '/board/new' do
     @board = Board.new(params)
     @board.save
+    redirect "/"
+  end
+
+  delete '/board/:id' do
+    board = Board.find(params['id'])
+    board.destroy
+    @boards = Board.all
     redirect "/"
   end
 end

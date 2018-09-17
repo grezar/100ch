@@ -8,7 +8,8 @@ module Model
       end
 
       def find(id)
-        client.query("SELECT * FROM #{table} WHERE id=#{id}")
+        result = client.query("SELECT * FROM #{table} WHERE id=#{id}")
+        self.new(result.first)
       end
 
       def client
@@ -30,6 +31,11 @@ module Model
       client.query("INSERT INTO #{table}(#{model_attrs[:names]}) VALUES('#{model_attrs[:values]}')")
     end
 
+    def destroy
+      id = self.id
+      client.query("DELETE FROM #{table} WHERE id=#{id}")
+    end
+
     private
 
     def client
@@ -44,15 +50,15 @@ module Model
       attr_names = []
       attr_values = []
 
-      instance_variables.each do |instance_variable|
+      attrs = instance_variables
+      attrs.delete(:@id)
+
+      attrs.each do |instance_variable|
         attr_names << instance_variable.to_s.slice(1..-1)
         attr_values << instance_variable_get(instance_variable)
       end
 
       { names: attr_names.join(","), values: attr_values.join(",") }
-    end
-
-    def model_attr_values
     end
   end
 end

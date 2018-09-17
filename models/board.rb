@@ -1,7 +1,10 @@
 require 'models/base'
 
 class Board < Model::Base
+  attr_reader :id, :name
+
   def initialize(params = {})
-    @name = params[:name]
+    @id   = params[:id] || params["id"]
+    @name = params[:name] || params["name"]
   end
 end

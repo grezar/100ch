@@ -3,5 +3,8 @@ h1 Board
 - @boards.each do |board|
   .board-box
     a href="/board/#{board["id"]}" = board["name"]
+    form action="/board/#{board['id']}" method='post' name="destroy_board"
+      input type='hidden' name='_method' value='DELETE'
+      input type='submit' value='Destroy'
 
 a href="/board/new" new
