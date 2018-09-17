@@ -12,6 +12,13 @@ module Model
         self.new(result.first)
       end
 
+      def where(condition)
+        condition_string = nil
+        condition.each { |k, v| condition_string="#{k}=#{v}" }
+        rows = client.query("SELECT * FROM #{table} WHERE #{condition_string}")
+        rows.map { |row| self.new(row) }
+      end
+
       def client
         @client ||= ::Mysql2::Client.new(
           host:     ENV['APP_100CH_DB_HOST'],
@@ -28,7 +35,7 @@ module Model
 
     def save
       model_attrs = get_model_attrs
-      client.query("INSERT INTO #{table}(#{model_attrs[:names]}) VALUES('#{model_attrs[:values]}')")
+      client.query("INSERT INTO #{table}(#{model_attrs[:names]}) VALUES(#{model_attrs[:values]})")
     end
 
     def destroy
@@ -48,17 +55,22 @@ module Model
 
     def get_model_attrs
       attr_names = []
-      attr_values = []
+      attr_values = nil
 
       attrs = instance_variables
       attrs.delete(:@id)
 
       attrs.each do |instance_variable|
         attr_names << instance_variable.to_s.slice(1..-1)
-        attr_values << instance_variable_get(instance_variable)
+        attr_values =
+          if attr_values
+            "#{attr_values}, '#{instance_variable_get(instance_variable).to_s}'"
+          else
+            "'#{instance_variable_get(instance_variable).to_s}'"
+          end
       end
 
-      { names: attr_names.join(","), values: attr_values.join(",") }
+      { names: attr_names.join(","), values: attr_values }
     end
   end
 end

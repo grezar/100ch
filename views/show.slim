@@ -1,4 +1,9 @@
-h1 @board["name"]
+h1 = @board.name
 
-@board.threads.each do |thread|
-  h3 = thread["name"]
+- @board.topics.each do |topic|
+  h3 = topic.name
+
+form action="/topic/new" method="POST"
+  name: input type="text" name="name" value=""
+  input type="hidden" value=@board.id name="board_id"
+  input type="submit" value="add topic"

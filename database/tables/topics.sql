@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS threads (
+CREATE TABLE IF NOT EXISTS topics (
     id int unsigned not null auto_increment,
     name varchar(255) not null,
     board_id int unsigned not null,

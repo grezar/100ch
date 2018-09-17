@@ -24,10 +24,30 @@ class App < Sinatra::Base
     redirect "/"
   end
 
+  get '/board/:id' do
+    @board = Board.find(params['id'])
+    slim :show
+  end
+
   delete '/board/:id' do
     board = Board.find(params['id'])
     board.destroy
     @boards = Board.all
     redirect "/"
+  end
+
+  get '/topic/new' do
+    @topic = Topic.new
+    slim :'topic/new'
+  end
+
+  post '/topic/new' do
+    @topic = Topic.new(params)
+    @topic.save
+    redirect "/topic/#{topic.id}"
+  end
+
+  get 'topic/:id' do
+    @topic = Topic.find(params['id'])
   end
 end
