@@ -36,6 +36,7 @@ module Model
     def save
       model_attrs = get_model_attrs
       client.query("INSERT INTO #{table}(#{model_attrs[:names]}) VALUES(#{model_attrs[:values]})")
+      self.id = client.last_id
     end
 
     def destroy

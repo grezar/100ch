@@ -41,13 +41,14 @@ class App < Sinatra::Base
     slim :'topic/new'
   end
 
+  get '/topic/:id' do
+    @topic = Topic.find(params['id'])
+    slim :'topic/show'
+  end
+
   post '/topic/new' do
     @topic = Topic.new(params)
     @topic.save
-    redirect "/topic/#{topic.id}"
-  end
-
-  get 'topic/:id' do
-    @topic = Topic.find(params['id'])
+    redirect "/topic/#{@topic.id}"
   end
 end

@@ -2,7 +2,8 @@ require 'models/base'
 require 'models/topic'
 
 class Board < Model::Base
-  attr_reader :id, :name
+  attr_accessor :id
+  attr_reader :name
 
   def initialize(params = {})
     @id   = params[:id] || params["id"]
