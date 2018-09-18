@@ -1,7 +1,8 @@
 h1 = @board.name
 
 - @board.topics.each do |topic|
-  h3 = topic.name
+  p
+    a href="/topic/#{topic.id}" = topic.name
 
 form action="/topic/new" method="POST"
   name: input type="text" name="name" value=""
