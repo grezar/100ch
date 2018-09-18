@@ -5,3 +5,4 @@ CREATE TABLE IF NOT EXISTS topics (
     foreign key(board_id) references boards(id) on DELETE cascade,
     primary key(id)
 );
+

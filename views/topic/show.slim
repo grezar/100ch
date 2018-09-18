@@ -1,1 +1,9 @@
 h1 = @topic.name
+
+- @topic.posts.each do |post|
+  p = post.body
+
+form action="/post/new" method="POST"
+  input type="text" name="body" value=""
+  input type="hidden" value=@topic.id name="topic_id"
+  input type="submit" value="post"

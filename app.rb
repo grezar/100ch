@@ -51,4 +51,10 @@ class App < Sinatra::Base
     @topic.save
     redirect "/topic/#{@topic.id}"
   end
+
+  post '/post/new' do
+    @post = Post.new(params)
+    @post.save
+    redirect "/topic/#{@post.topic_id}"
+  end
 end
